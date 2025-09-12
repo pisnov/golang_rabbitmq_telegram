@@ -1,4 +1,4 @@
-abbitMQ to Telegram Bot
+RabbitMQ to Telegram Bot
 Sebuah aplikasi Go yang mengonsumsi pesan dari RabbitMQ dan mengirimkannya ke channel Telegram dengan format yang rapi.
 
 📋 Deskripsi
