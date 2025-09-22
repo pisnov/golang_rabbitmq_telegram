@@ -1,14 +1,16 @@
 package main
 
 import (
-	"golang_rabbitmq_telegram/internal/config"
-	"golang_rabbitmq_telegram/internal/processor"
-	"golang_rabbitmq_telegram/internal/rabbitmq"
-	"golang_rabbitmq_telegram/internal/telegram"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
+
+	"golang_rabbitmq_telegram/internal/config"
+	"golang_rabbitmq_telegram/internal/processor"
+	"golang_rabbitmq_telegram/internal/rabbitmq"
+	"golang_rabbitmq_telegram/internal/telegram"
 )
 
 func main() {
@@ -61,11 +63,14 @@ func main() {
 				continue
 			}
 
-			// Send to Telegram
-			err = tgClient.SendMessage(messageText, 3)
+			// Send to Telegram dengan retry mechanism yang baru
+			err = tgClient.SendMessageWithRetry(messageText, 3)
 			if err != nil {
-				log.Printf("Failed to send message to Telegram: %v", err)
+				log.Printf("Failed to send message to Telegram after retries: %v", err)
 			}
+
+			// Tambahkan delay untuk menghindari rate limiting
+			time.Sleep(1 * time.Second)
 
 		case <-sigChan:
 			log.Println("Shutting down gracefully...")

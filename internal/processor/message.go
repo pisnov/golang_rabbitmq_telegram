@@ -3,9 +3,10 @@ package processor
 import (
 	"encoding/json"
 	"fmt"
-	"golang_rabbitmq_telegram/pkg/utils"
 	"log"
 	"strings"
+
+	"golang_rabbitmq_telegram/pkg/utils" // Ganti dengan path yang benar
 )
 
 type MessageStructure struct {
